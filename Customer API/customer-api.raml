@@ -1,0 +1,64 @@
+#%RAML 1.0
+title: Customer API
+mediaType:
+ - application/json
+ 
+uses:
+  dg: exchange_modules/68ef9520-24e9-4cf2-b2f5-620025690913/datagraph-api-extensions/1.0.0/datagraph-api-extensions.raml
+   
+types:
+  Customer:
+    (dg.entity):
+      key: [customerId]
+    properties:
+      customerId: string
+      firstName: string
+      lastName: string
+      email: string
+      phone: string
+      Address:
+        items:
+          properties:
+            addressLine1: string
+            addressLine2: string
+            city: string
+            state: string
+            zipCode: string
+            country: string
+      customerType: string
+      ordersToDate: string
+    example:
+      customerId: "4321"
+      firstName: Max
+      lastName: TheMule
+      email: maxthemule@mulesoft.com
+      phone: 415-415-9876
+      Address:
+        -
+          addressLine1: 876 MuleSoft Lane
+          addressLine2: Apt. 3208
+          city: San Francisco
+          state: CA
+          zipCode: "94105"
+          country: USA
+      ordersToDate: "23"
+      customerType: consumer
+ 
+/customers:
+ get:
+   displayName: GET List of Customers
+   responses:
+     "200":
+       body:
+         items:
+           type: Customer
+/customers/{customerId}:
+  get:
+    (dg.entity-provider):
+      keyMapping:
+        customerId: customerId 
+    displayName: GET Customer by ID
+    responses:
+     "200":
+       body:
+         type: Customer

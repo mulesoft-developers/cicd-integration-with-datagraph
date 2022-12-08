@@ -1,0 +1,113 @@
+#%Dialect 1.0
+
+$id: https://federation.graph.anypoint.mulesoft.com/v1/schema/DataGraphExtensions/1.0
+dialect: DataGraph Semantic Extensions
+version: 1.0
+
+external:
+  standardTypes: http://www.w3.org/ns/shacl#
+  aml: http://a.ml/vocab#
+  apiContract: http://a.ml/vocabularies/apiContract#
+  shape: http://a.ml/vocabularies/shapes#
+
+
+documents: {}
+
+annotationMappings:
+  EntityAnnotation:
+    domain: standardTypes.NodeShape
+    propertyTerm: aml.dgEntity
+    range:  Entity
+  EntityRefencesAnnotation:
+    domain: standardTypes.NodeShape
+    propertyTerm: aml.dgEntityReferences
+    range: EntityReference
+    allowMultiple: true
+  EntityProviderAnnotation:
+    domain: apiContract.Operation
+    propertyTerm: aml.dgEntityProvider
+    range: EntityProvider
+  HttpMethodOverrideAnnotation:
+    domain: apiContract.Operation
+    propertyTerm: aml.dgHttpMethodOverride
+    range: HttpMethodOverride
+  DataGraphAnnotation:
+    domain:
+      - apiContract.Operation
+      - standardTypes.NodeShape
+      - shape.ScalarShape
+    propertyTerm: aml.dgDataGraph
+    range: DataGraph
+
+nodeMappings:
+  Entity:
+    classTerm: aml.Entity
+    mapping:
+      key:
+        propertyTerm: aml.dgEntityKey
+        range: string
+        allowMultiple: true
+        mandatory: true
+  EntityReference:
+    classTerm: aml.EntityReference
+    mapping:
+      name:
+        propertyTerm: aml.dgEntityReferenceName
+        range: string
+        mandatory: true
+      fieldName:
+        propertyTerm: aml.dgEntityReferenceFieldName
+        range: string
+        mandatory: true
+      keyMapping:
+        propertyTerm: aml.dgEntityReferenceKeyMapping
+        range: KeyMapping
+        mandatory: true
+        mapKey: name
+        mapValue: value
+  KeyMapping:
+    mapping:
+      name:
+        propertyTerm: aml.dgEntityKeyMappingName
+        range: string
+        mandatory: true
+        unique: true
+      value:
+        propertyTerm: aml.dgEntityKeyMappingValue
+        range: string
+        mandatory: true
+  HttpMethodOverride:
+    classTerm: aml.HttpMethodOverride
+    mapping:
+      method:
+        propertyTerm: aml.dgHttpMethodOverride
+        range: string
+        mandatory: false
+
+  EntityProvider:
+    classTerm: aml.EntityProvider
+    mapping:
+      keyMapping:
+        propertyTerm: aml.dgEntityProviderKeyMapping
+        range: KeyMapping
+        mandatory: true
+        mapKey: name
+        mapValue: value
+  DataGraph:
+    classTerm: aml.DataGraph
+    mapping:
+      hide:
+        propertyTerm: aml.dgDataGraphHide
+        range: boolean
+        mandatory: false
+      name:
+        propertyTerm: aml.dgDataGraphName
+        range: string
+        mandatory: false
+
+extensions:
+  entity: EntityAnnotation
+  entity-references: EntityRefencesAnnotation
+  entity-provider: EntityProviderAnnotation
+  http-method-override: HttpMethodOverrideAnnotation
+  datagraph: DataGraphAnnotation

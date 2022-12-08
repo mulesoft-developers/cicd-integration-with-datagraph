@@ -1,0 +1,64 @@
+#%RAML 1.0
+title: Order API
+mediaType:
+  - application/json
+
+uses:
+  dg: exchange_modules/68ef9520-24e9-4cf2-b2f5-620025690913/datagraph-api-extensions/1.0.0/datagraph-api-extensions.raml
+
+types:
+  Order:
+    (dg.entity):
+      key: [orderId]
+    (dg.entity-references):
+      name: Customer
+      fieldName: customer
+      keyMapping:
+        customerId: customerId
+    properties:
+      orderId: string
+      orderItems:
+        items:
+          properties:
+            brand: string
+            model: string
+            description: string
+            price: string
+            itemId: string
+      subtotal: string
+      status: string
+      customerId?: string
+    example:
+      orderId: "9876"
+      orderItems:
+        -
+          brand: Anypoint
+          model: DataGraph
+          description: Easily access all your APIs in a single request.
+          price: "300"
+          itemId: "1234"
+      subtotal: "300"
+      status: Draft
+      customerId: "4321"
+
+/orders:
+  get:
+    description: Get all the orders
+    responses:
+      "200":
+        body:
+          type:
+            items: Order
+
+/orders/{orderId}:
+  get:
+    (dg.entity-provider):
+      keyMapping:
+        orderId: orderId
+
+    description: Get Order by Id
+    responses:
+      "200":
+        body:
+          type: Order
+

@@ -1,0 +1,12 @@
+{
+            "main":"datagraph-api-extensions.yaml",
+            "name":"DataGraph API Extensions",
+            "organizationId":"68ef9520-24e9-4cf2-b2f5-620025690913",
+            "groupId":"68ef9520-24e9-4cf2-b2f5-620025690913",
+            "assetId":"datagraph-api-extensions",
+            "version":"1.0.0",
+            "classifier":"api-extension",
+            "dependencies":[],
+            "tags":[],
+            "descriptorVersion": "1.0.0"
+            }
